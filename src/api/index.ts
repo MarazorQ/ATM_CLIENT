@@ -1,7 +1,7 @@
 import axios from "axios";
 
 axios.defaults.baseURL =
-  process.env.REACT_APP_BASE_URL || "localhost:3000/api/";
+  process.env.REACT_APP_BASE_URL || " http://localhost:5000/";
 
 export const client = {
   get: async (url: string) => {
