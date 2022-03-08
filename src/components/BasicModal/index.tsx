@@ -20,9 +20,10 @@ const style = {
 type BasicModalProps = {
     open: any,
     handleClose: any,
+    handleCloseAccept: any
 }
 
-const BasicModal: FC<BasicModalProps> = ({open, handleClose}) => {
+const BasicModal: FC<BasicModalProps> = ({open, handleClose, handleCloseAccept}) => {
   return (
       <Modal
         open={open}
@@ -42,7 +43,7 @@ const BasicModal: FC<BasicModalProps> = ({open, handleClose}) => {
               paddingTop: "20px"
             }}
           >
-            <Button onClick={handleClose} style={{ marginRight: "30px" }}>
+            <Button onClick={handleCloseAccept} style={{ marginRight: "30px" }}>
               Accept
             </Button>
             <Button onClick={handleClose}>Cancel</Button>

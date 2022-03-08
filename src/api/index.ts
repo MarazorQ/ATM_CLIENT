@@ -14,6 +14,11 @@ export const client = {
 
     return instance.post(url, data);
   },
+  delete: async (url: string, data: any) => {
+    const instance = axios.create();
+
+    return instance.delete(url, data);
+  },
   patch: async (url: string, data: any) => {
     const instance = axios.create();
 

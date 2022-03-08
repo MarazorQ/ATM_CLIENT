@@ -27,7 +27,7 @@ const EditBlock = (<Button
       <CardActions>
         <Button 
             startIcon={<DeleteForeverIcon/>} 
-            onClick={deleteClient}
+            onClick={()=>deleteClient(client.id)}
         >
             {""}
         </Button>

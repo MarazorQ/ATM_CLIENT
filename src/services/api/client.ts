@@ -95,3 +95,19 @@ export const getClientist = () => async (dispatch: AppDispatch) => {
     console.log(e);
   }
 };
+export const deleteClient = (id: number) => async (dispatch: AppDispatch) => {
+  try {
+    dispatch(registerClientSlice.actions.setRegisterClientLoading(true));
+
+    const response = await client.delete("/clients/delete", {
+      data: {
+        id,
+      },
+    });
+
+    dispatch(registerClientSlice.actions.setRegisterClientLoading(false));
+    dispatch(registerClientSlice.actions.setClientList(response.data));
+  } catch (e) {
+    console.log("FatallError", e);
+  }
+};
