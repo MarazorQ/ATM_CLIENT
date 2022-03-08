@@ -2,12 +2,12 @@ export interface IClient {
   first_name: string;
   last_name: string;
   third_name: string;
-  date_born: string;
+  date_born: string | null;
   sex: string;
   passport_series: string;
   passport_id: string;
   who_issued_the_passport: string;
-  date_of_issue_of_the_passport: string;
+  date_of_issue_of_the_passport: string | null;
   inspirational_passport_number: string;
   place_of_birth: string;
   city_of_residence: string;

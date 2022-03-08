@@ -2,6 +2,7 @@ import React, {FC} from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import CircularProgress from '@mui/material/CircularProgress';
+import LinearProgress from '@mui/material/LinearProgress';
 
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -28,11 +29,23 @@ import {IClient} from '../../models/IClient'
 
 import { useForm, Controller, useFormState, SubmitHandler } from "react-hook-form";
 
-import {getClientCitysList, getClientDisabilityList, getClientMaterialStatusList, getClientCitizenshipList} from '../../services/api/client'
+import {getClientCitysList, getClientDisabilityList, getClientMaterialStatusList, getClientCitizenshipList, addNewClient} from '../../services/api/client'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import {citys, disabilitys, citizenship, material_status, isLoading} from "../../store/reducers/RegisterClientSlice"
+import {citys, disabilitys, citizenship, material_status, isLoading, isLoadingRegClient, alert_msg, registerClientSlice} from "../../store/reducers/RegisterClientSlice"
+
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref,
+  ) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
 
 const  RegisterClient:FC = () => {
+    const [openResponseAlert, setResponseAlert] = React.useState(false);
+
     const dispatch = useAppDispatch()
 
     const all_citys = useAppSelector(citys)
@@ -40,6 +53,8 @@ const  RegisterClient:FC = () => {
     const material_status_list = useAppSelector(material_status)
     const citizenship_list = useAppSelector(citizenship)
     const is_load_selects = useAppSelector(isLoading)
+    const is_load_reg_response = useAppSelector(isLoadingRegClient)
+    const response_alert_msg = useAppSelector(alert_msg)
 
     const { handleSubmit, control, register, reset } = useForm<IClient>({
         defaultValues: { 
@@ -54,39 +69,57 @@ const  RegisterClient:FC = () => {
   const handleClickRegister: SubmitHandler<IClient> = 
     async (client: IClient) => {
       try {
-       console.log(client)
-       reset({
-        first_name: "",
-        last_name: "",
-        third_name: "",
-        date_born: "",
-        sex: "",
-        passport_series: "",
-        passport_id: "",
-        who_issued_the_passport: "",
-        date_of_issue_of_the_passport: "",
-        inspirational_passport_number: "",
-        place_of_birth: "",
-        city_of_residence: "",
-        residential_address: "",
-        mobile_phone: "",
-        home_phone: "",
-        email: "",
-        work_place: "",
-        position: "",
-        place_of_registration: "",
-        address_of_residence: "",
-        marital_status: "",
-        citizenship: "",
-        disability: "",
-        retiree: "",
-        salary: "",
-        liable_for_military_service: ""
-       })
+    //    console.log(client)
+       dispatch(addNewClient(client))
+    //    reset({
+    //     first_name: "",
+    //     last_name: "",
+    //     third_name: "",
+    //     date_born: null,
+    //     sex: "",
+    //     passport_series: "",
+    //     passport_id: "",
+    //     who_issued_the_passport: "",
+    //     date_of_issue_of_the_passport: null,
+    //     inspirational_passport_number: "",
+    //     place_of_birth: "",
+    //     city_of_residence: "",
+    //     residential_address: "",
+    //     mobile_phone: "",
+    //     home_phone: "",
+    //     email: "",
+    //     work_place: "",
+    //     position: "",
+    //     place_of_registration: "",
+    //     address_of_residence: "",
+    //     marital_status: "",
+    //     citizenship: "",
+    //     disability: "",
+    //     retiree: "",
+    //     salary: "",
+    //     liable_for_military_service: ""
+    //    })
       } catch (e) {
         console.log(e);
       }
     }
+    const handleCloseAlert = (event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+    
+        setResponseAlert(false);
+      };
+  
+  React.useEffect(()=>{
+    if(response_alert_msg.status) {
+        setResponseAlert(true);
+        registerClientSlice.actions.setAlertMessage({
+            status: false,
+            msg: ''
+          })
+    }
+  }, [response_alert_msg])
 
   React.useEffect(()=>{
     dispatch(getClientCitysList())
@@ -110,6 +143,20 @@ const  RegisterClient:FC = () => {
                     maxWidth: '100%',
                 }}
                 >
+                <Snackbar 
+                    open={openResponseAlert} 
+                    autoHideDuration={6000} 
+                    onClose={handleCloseAlert}
+                    anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "center",
+                      }}
+                >
+                    <Alert onClose={handleCloseAlert} severity="info" sx={{ width: '100%' }}>
+                        {response_alert_msg.msg}
+                    </Alert>
+                </Snackbar>
+                    
                     <Controller
                     name={"last_name"}
                     control={control}
@@ -601,11 +648,18 @@ const  RegisterClient:FC = () => {
                             <FormHelperText>{errors?.liable_for_military_service?.message}</FormHelperText>
                         </FormControl>
                     </Box>
-
-                    <Button variant="contained" endIcon={<SendIcon />} onClick={handleSubmit(handleClickRegister)} fullWidth>
-                        Зарегестрировать клиента
-                    </Button>
-
+                    {is_load_reg_response
+                        ?
+                            ( 
+                            <Box sx={{ width: "100%" }}>
+                                <LinearProgress /> 
+                            </Box>
+                            )
+                        :
+                            <Button variant="contained" endIcon={<SendIcon />} onClick={handleSubmit(handleClickRegister)} fullWidth>
+                                Зарегестрировать клиента
+                            </Button>
+                    }
                 </Box>
             </FormControl>)}
     </div>
