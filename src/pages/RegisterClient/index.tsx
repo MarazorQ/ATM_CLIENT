@@ -29,9 +29,26 @@ import {IClient} from '../../models/IClient'
 
 import { useForm, Controller, useFormState, SubmitHandler } from "react-hook-form";
 
-import {getClientCitysList, getClientDisabilityList, getClientMaterialStatusList, getClientCitizenshipList, addNewClient} from '../../services/api/client'
+import {
+    getClientCitysList, 
+    getClientDisabilityList, 
+    getClientMaterialStatusList, 
+    getClientCitizenshipList, 
+    addNewClient} from '../../services/api/client'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import {citys, disabilitys, citizenship, material_status, isLoading, isLoadingRegClient, alert_msg, registerClientSlice} from "../../store/reducers/RegisterClientSlice"
+import {
+    citys, 
+    disabilitys, 
+    citizenship, 
+    material_status, 
+    isLoading, 
+    isLoadingRegClient, 
+    alert_msg, 
+    registerClientSlice} from "../../store/reducers/RegisterClientSlice"
+import {
+    loginValidation, 
+    emailValidation, 
+    dateValidation} from '../../helper/clientValidationHelper'
 
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
@@ -160,7 +177,7 @@ const  RegisterClient:FC = () => {
                     <Controller
                     name={"last_name"}
                     control={control}
-                    rules={{required: 'Обязательно для заполнения!'}}
+                    rules={loginValidation}
                     render={({field: {onChange, value}}) => (
                         <TextField
                         label="Фамилия"
@@ -177,7 +194,7 @@ const  RegisterClient:FC = () => {
                     <Controller
                     name={"first_name"}
                     control={control}
-                    rules={{required: 'Обязательно для заполнения!'}}
+                    rules={loginValidation}
                     render={({field: {onChange, value}}) => (
                         <TextField
                         label="Имя"
@@ -213,7 +230,7 @@ const  RegisterClient:FC = () => {
                             <Controller
                             name={"date_born"}
                             control={control}
-                            rules={{required: 'Обязательно для заполнения!'}}
+                            rules={dateValidation}
                             render={({field}) => (
                                 <DatePicker
                                 label="Дата рождения"
@@ -308,7 +325,7 @@ const  RegisterClient:FC = () => {
                             <Controller
                             name={"date_of_issue_of_the_passport"}
                             control={control}
-                            rules={{required: 'Обязательно для заполнения!'}}
+                            rules={dateValidation}
                             render={({field}) => (
                                 <DatePicker
                                 label="Дата выдачи"
@@ -435,7 +452,7 @@ const  RegisterClient:FC = () => {
                     <Controller
                     name={"email"}
                     control={control}
-                    rules={{required: 'Обязательно для заполнения!'}}
+                    rules={emailValidation}
                     render={({field: {onChange, value}}) => (
                         <TextField
                         label="E-mail"

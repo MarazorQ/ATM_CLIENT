@@ -49,6 +49,10 @@ import {
   clientDetails, 
   registerClientSlice} from "../../store/reducers/RegisterClientSlice"
 import {getLocalStorage} from '../../services/localstorage'
+import {
+  loginValidation, 
+  emailValidation, 
+  dateValidation} from '../../helper/clientValidationHelper'
 
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
@@ -186,7 +190,7 @@ const  UpdateClient:FC = () => {
                     <Controller
                     name={"last_name"}
                     control={control}
-                    rules={{required: 'Обязательно для заполнения!'}}
+                    rules={loginValidation}
                     render={({field: {onChange, value}}) => (
                         <TextField
                         label="Фамилия"
@@ -203,7 +207,7 @@ const  UpdateClient:FC = () => {
                     <Controller
                     name={"first_name"}
                     control={control}
-                    rules={{required: 'Обязательно для заполнения!'}}
+                    rules={loginValidation}
                     render={({field: {onChange, value}}) => (
                         <TextField
                         label="Имя"
@@ -239,7 +243,7 @@ const  UpdateClient:FC = () => {
                             <Controller
                             name={"date_born"}
                             control={control}
-                            rules={{required: 'Обязательно для заполнения!'}}
+                            rules={dateValidation}
                             render={({field}) => (
                                 <DatePicker
                                 label="Дата рождения"
@@ -334,7 +338,7 @@ const  UpdateClient:FC = () => {
                             <Controller
                             name={"date_of_issue_of_the_passport"}
                             control={control}
-                            rules={{required: 'Обязательно для заполнения!'}}
+                            rules={dateValidation}
                             render={({field}) => (
                                 <DatePicker
                                 label="Дата выдачи"
@@ -461,7 +465,7 @@ const  UpdateClient:FC = () => {
                     <Controller
                     name={"email"}
                     control={control}
-                    rules={{required: 'Обязательно для заполнения!'}}
+                    rules={emailValidation}
                     render={({field: {onChange, value}}) => (
                         <TextField
                         label="E-mail"
