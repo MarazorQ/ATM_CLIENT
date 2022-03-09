@@ -8,20 +8,25 @@ import Typography from '@mui/material/Typography';
 import { IClient } from "../../models/IClient";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
+import {saveLocalStorage} from '../../services/localstorage'
+import { useNavigate } from 'react-router-dom';
+import {RouteNames} from '../../router/'
 
 type BasicCardProps = {
     client: IClient,
     deleteClient: any
 }
-
-const EditBlock = (<Button 
-    startIcon={<EditIcon/>} 
-    onClick={()=> console.log("1")}
->
-    {""}
-</Button>)
-
  const BasicCard: FC<BasicCardProps> = ({client, deleteClient}) => {
+  const navigate = useNavigate()
+
+  const EditBlock = (<Button 
+    startIcon={<EditIcon/>} 
+    onClick={()=> navigate(RouteNames.UPDATE_CLIENT)}
+    >
+    {""}
+    </Button>
+  )
+
   return (
     <Card sx={{ minWidth: 275 }} style={{marginBottom: "10px"}}>
       <CardActions>
@@ -36,7 +41,7 @@ const EditBlock = (<Button
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
           {client.passport_series} {client.passport_id}
         </Typography>
-        <Typography variant="h5" component="div">
+        <Typography variant="h5" component="div" onClickCapture={() => saveLocalStorage('client_by_id', String(client.id))}>
           {client.first_name} {client.last_name} {EditBlock}
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">

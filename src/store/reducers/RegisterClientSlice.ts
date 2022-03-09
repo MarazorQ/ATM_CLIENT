@@ -12,6 +12,7 @@ interface RegisterClientState {
   material_status: ICity[];
   citizenship: ICity[];
   clientList: IClient[];
+  clientDetails: IClient | any;
   isLoading: boolean;
   isLoadingRegClient: boolean;
   alertMsg: IRegAlert;
@@ -24,6 +25,7 @@ const initialState: RegisterClientState = {
   material_status: [],
   citizenship: [],
   clientList: [],
+  clientDetails: {},
   isLoadingRegClient: false,
   isLoading: false,
   alertMsg: { status: false, msg: "" },
@@ -49,6 +51,9 @@ export const registerClientSlice = createSlice({
     setClientList(state, action) {
       state.clientList = action.payload;
     },
+    setClientDetails(state, action) {
+      state.clientDetails = action.payload;
+    },
     setLoading(state, action) {
       state.isLoading = action.payload;
     },
@@ -69,6 +74,8 @@ export const citys = (state: RootState) => state.registerClient.citys;
 export const disabilitys = (state: RootState) =>
   state.registerClient.disabilitys;
 export const clientList = (state: RootState) => state.registerClient.clientList;
+export const clientDetails = (state: RootState) =>
+  state.registerClient.clientDetails;
 export const material_status = (state: RootState) =>
   state.registerClient.material_status;
 export const citizenship = (state: RootState) =>
