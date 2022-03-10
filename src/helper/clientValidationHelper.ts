@@ -28,6 +28,10 @@ export const dateValidation = {
     if (value == "Invalid Date") {
       return "Некоректно введена дата!";
     }
+    if (new Date() < new Date(value)) {
+      return "Дату нельзя указать в будущем!";
+    }
+
     return true;
   },
 };

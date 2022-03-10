@@ -62,6 +62,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 const  RegisterClient:FC = () => {
     const [openResponseAlert, setResponseAlert] = React.useState(false);
+    const [alertMsg, setAlertMsg] = React.useState("")
 
     const dispatch = useAppDispatch()
 
@@ -131,10 +132,13 @@ const  RegisterClient:FC = () => {
   React.useEffect(()=>{
     if(response_alert_msg.status) {
         setResponseAlert(true);
-        registerClientSlice.actions.setAlertMessage({
-            status: false,
-            msg: ''
-          })
+        setAlertMsg(response_alert_msg.msg)
+        dispatch(
+            registerClientSlice.actions.setAlertMessage({
+              status: false,
+              msg: "",
+            })
+          );
     }
   }, [response_alert_msg])
 
@@ -170,7 +174,7 @@ const  RegisterClient:FC = () => {
                       }}
                 >
                     <Alert onClose={handleCloseAlert} severity="info" sx={{ width: '100%' }}>
-                        {response_alert_msg.msg}
+                        {alertMsg}
                     </Alert>
                 </Snackbar>
                     

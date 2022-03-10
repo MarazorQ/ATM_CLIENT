@@ -61,6 +61,7 @@ export const addNewClient =
       const response = await client
         .post("/clients/register", {
           ...clientDto,
+          id: "",
         })
         .catch(function (e) {
           console.log(e.response.data);

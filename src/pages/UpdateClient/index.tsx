@@ -72,6 +72,7 @@ const  UpdateClient:FC = () => {
     const navigate = useNavigate()
 
     const [openResponseAlert, setResponseAlert] = React.useState(false);
+    const [alertMsg, setAlertMsg] = React.useState("")
 
     const dispatch = useAppDispatch()
 
@@ -111,13 +112,16 @@ const  UpdateClient:FC = () => {
   React.useEffect(()=>{
     if(response_alert_msg.status) {
         setResponseAlert(true);
-        registerClientSlice.actions.setAlertMessage({
+        setAlertMsg(response_alert_msg.msg)
+        dispatch(
+          registerClientSlice.actions.setAlertMessage({
             status: false,
-            msg: ''
+            msg: "",
           })
+        );
     }
   }, [response_alert_msg])
-
+  
   React.useEffect(()=>{
     if(Object.keys(client_details).length > 0) {
       reset(
@@ -156,6 +160,10 @@ const  UpdateClient:FC = () => {
     dispatch(getClientMaterialStatusList())
     dispatch(getClientCitizenshipList())
     dispatch(getClientById(Number(getLocalStorage('client_by_id'))))
+
+    // return function clear() {
+    //   dispatch(registerClientSlice.actions.setClientDetails({}));
+    // }
   }, [])
   
   return (
@@ -183,7 +191,7 @@ const  UpdateClient:FC = () => {
                       }}
                 >
                     <Alert onClose={handleCloseAlert} severity="info" sx={{ width: '100%' }}>
-                        {response_alert_msg.msg}
+                        {alertMsg}
                     </Alert>
                 </Snackbar>
                     
