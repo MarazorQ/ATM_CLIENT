@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { registerClientSlice } from "../store/reducers/RegisterClientSlice";
+import { depositSlice } from "../store/reducers/DepositSlice";
 
 export const store = configureStore({
   reducer: {
     registerClient: registerClientSlice.reducer,
+    depositSlice: depositSlice.reducer,
   },
 });
 

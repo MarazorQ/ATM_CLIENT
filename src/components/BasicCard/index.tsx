@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { IClient } from "../../models/IClient";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import SettingsAccessibilityIcon from '@mui/icons-material/SettingsAccessibility';
 import EditIcon from '@mui/icons-material/Edit';
 import {saveLocalStorage} from '../../services/localstorage'
 import { useNavigate } from 'react-router-dom';
@@ -53,6 +54,15 @@ type BasicCardProps = {
           {client.email}
         </Typography>
       </CardContent>
+      <CardActions onClickCapture={() => saveLocalStorage('client_by_id', String(client.id))}>
+        <Button 
+          size="small" 
+          endIcon={<SettingsAccessibilityIcon/>} 
+          onClick={()=>navigate(RouteNames.CLIENT_DETAILS)}
+        >
+          See details
+        </Button>
+      </CardActions>
     </Card>
   );
 }
